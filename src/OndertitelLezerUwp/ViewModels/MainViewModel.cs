@@ -608,8 +608,16 @@ namespace OndertitelLezerUwp.ViewModels
             {
                 var allVideoDevices = await DeviceInformation.FindAllAsync(DeviceClass.VideoCapture);
 
-                //only wors with backpanel hard coded/ can be refactored to leverage external camera
-                DeviceInformation cameraDevice = allVideoDevices.FirstOrDefault(x => x.EnclosureLocation.Panel == Windows.Devices.Enumeration.Panel.Back);
+                DeviceInformation cameraDevice;
+                if (allVideoDevices.Count == 1)
+                {
+                    cameraDevice = allVideoDevices.First();
+                }
+                else
+                {
+                    //only wors with backpanel hard coded/ can be refactored to leverage external camera
+                    cameraDevice = allVideoDevices.FirstOrDefault(x => x.EnclosureLocation.Panel == Windows.Devices.Enumeration.Panel.Back);
+                }
                
                 
                 if (cameraDevice == null)
